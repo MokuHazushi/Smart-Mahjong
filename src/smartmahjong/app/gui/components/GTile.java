@@ -18,7 +18,7 @@ import javax.swing.JPanel;
  */
 public class GTile extends JPanel {
     
-    private final Image tileImage;
+    private Image tileImage;
     private boolean hovered;
 
     public GTile(Image tileImage) {
@@ -32,12 +32,21 @@ public class GTile extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
+        
+        if (tileImage == null)
+            return;
+        
         g.drawImage(tileImage, 0, 0, getWidth(), getHeight(), null);
         
         if (hovered) {
             g.setColor(new Color(50, 50, 50, 50));
-            g.drawRect(0, 0, getWidth(), getHeight());
+            g.fillRect(0, 0, getWidth(), getHeight());
         }
+    }
+
+    public void setTileImage(Image tileImage) {
+        this.tileImage = tileImage;
+        repaint();
     }
     
     private class GTileHoverListener implements MouseListener {
