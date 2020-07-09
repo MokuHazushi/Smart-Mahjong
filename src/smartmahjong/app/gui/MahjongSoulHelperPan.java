@@ -5,12 +5,12 @@
  */
 package smartmahjong.app.gui;
 
-import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 /**
  *
  * @author moku
  */
-public class MahjongSoulHelperFrame extends JFrame {
+public class MahjongSoulHelperPan extends JPanel {
     
 }

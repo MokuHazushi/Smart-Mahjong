@@ -5,6 +5,7 @@
  */
 package smartmahjong.app.gui;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -14,6 +15,7 @@ import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import smartmahjong.app.gui.listeners.ResizeWhenVisibleListener;
 
 /**
  *
@@ -22,9 +24,10 @@ import javax.swing.JPanel;
 public class MainFrame extends JFrame {
     private static final String FRAME_TITLE = "Smart Mahjong";
     private static final Dimension FRAME_DIMENSION = new Dimension(500, 700);
-    private final List<JFrame> ALL_FRAMES = new ArrayList<>();
+    private final List<JPanel> MAIN_PANELS = new ArrayList<>();
     
-    private final JFrame debugModeFrame, mahjongsoulHelperFrame;
+    private final JPanel debugModePan, mahjongsoulHelperPan, menuPan;
+    private final JButton backBt;
     
     public MainFrame() {
         super(FRAME_TITLE);
@@ -33,41 +36,72 @@ public class MainFrame extends JFrame {
         setLocationRelativeTo(null);
         
         // Sub-frames
-        debugModeFrame = new DebugModeFrame();
-        mahjongsoulHelperFrame = new MahjongSoulHelperFrame();
+        debugModePan = new DebugModePan();
+        mahjongsoulHelperPan = new MahjongSoulHelperPan();
+        menuPan = new MenuPan();
+        
+        // Buttons
+        backBt = new JButton("Back");
         
         // Layout
-        setContentPane(new ButtonPan());
+        JPanel contentPane = new JPanel();
+        JPanel centerPan = new JPanel();
+        JPanel bottomPan = new JPanel();
+        contentPane.setLayout(new BorderLayout());
+        bottomPan.setLayout(new BorderLayout());
+        
+        centerPan.add(menuPan);
+        centerPan.add(debugModePan);
+        centerPan.add(mahjongsoulHelperPan);
+        bottomPan.add(backBt, BorderLayout.LINE_START);
+        contentPane.add(centerPan, BorderLayout.CENTER);
+        contentPane.add(bottomPan, BorderLayout.PAGE_END);
+        
+        debugModePan.setVisible(false);
+        mahjongsoulHelperPan.setVisible(false);
+        backBt.setVisible(false);
+        setContentPane(contentPane);
+        
+        // Listeners
+        backBt.addActionListener((ActionEvent ae) -> {
+            switchMainPanel(menuPan);
+        });
         
         // Finalization
-        ALL_FRAMES.add(this);
-        ALL_FRAMES.add(debugModeFrame);
-        ALL_FRAMES.add(mahjongsoulHelperFrame);
+        MAIN_PANELS.add(menuPan);
+        MAIN_PANELS.add(debugModePan);
+        MAIN_PANELS.add(mahjongsoulHelperPan);
         
         setVisible(true);
     }
     
-    public void switchVisibleFrame(JFrame frame) {
-        ALL_FRAMES.forEach((f) -> {
+    public void switchMainPanel(JPanel pan) {
+        MAIN_PANELS.forEach((f) -> {
             f.setVisible(false);
         });
-        frame.setVisible(true);
+        pan.setVisible(true);
+        
+        if (pan != menuPan)
+            backBt.setVisible(true);
+        else
+            backBt.setVisible(false);
     }
     
-    private class ButtonPan extends JPanel {
+    private class MenuPan extends JPanel {
         //private final MainFrame mainFrame;
         
         private final JButton debugModeBt, mahjongsoulHelperBt;
 
-        public ButtonPan() {
+        public MenuPan() {
             
             // Buttons
             debugModeBt = new JButton("Debug mode");
             mahjongsoulHelperBt = new JButton("Mahjong Soul Helper");
             
             // Listeners
-            debugModeBt.addActionListener(new ButtonListener(debugModeFrame));
-            mahjongsoulHelperBt.addActionListener(new ButtonListener(mahjongsoulHelperFrame));
+            debugModeBt.addActionListener(new ButtonListener(debugModePan));
+            mahjongsoulHelperBt.addActionListener(new ButtonListener(mahjongsoulHelperPan));
+            addComponentListener(new ResizeWhenVisibleListener(FRAME_DIMENSION, this));
             
             // Layout
             setLayout(new GridLayout(2, 1));
@@ -76,15 +110,15 @@ public class MainFrame extends JFrame {
         }
         
         private class ButtonListener implements ActionListener {
-            private final JFrame toDisplayFrame;
+            private final JPanel toDisplayPanel;
 
-            public ButtonListener(JFrame toDisplayFrame) {
-                this.toDisplayFrame = toDisplayFrame;
+            public ButtonListener(JPanel toDisplayPanel) {
+                this.toDisplayPanel = toDisplayPanel;
             }
             
             @Override
             public void actionPerformed(ActionEvent ae) {
-                switchVisibleFrame(toDisplayFrame);
+                switchMainPanel(toDisplayPanel);
             }
         }
     }
