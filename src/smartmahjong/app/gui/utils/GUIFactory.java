@@ -45,7 +45,7 @@ public class GUIFactory {
         
         // Red doras
         if (tile.getDigit() == 5 && tile.isDora()) {
-            topY = TILE_DIMENSION.width * 4;
+            topY = TILE_DIMENSION.height * 4;
             switch (tile.getType()) {
                 case CHARACTER:
                     topX = 0;

@@ -9,7 +9,7 @@ package smartmahjong.app.engine;
  *
  * @author moku
  */
-public class Tile {
+public class Tile implements Comparable<Tile> {
     
     private final TileType type;
     private final int digit; // 0 if honor
@@ -52,21 +52,47 @@ public class Tile {
     public HonorType getHonorType() {
         return honorType;
     }
+
+    @Override
+    public int compareTo(Tile t) {
+        /* Sorting rules:
+        - Type: Characters -> Circles -> Bamboos -> Honors
+        - For non-honor type, increasing order
+        - For honors type East -> North -> West -> South -> Red dr. -> White dr. -> Green dr.
+        */
+        
+        if (this.isHonor() && t.isHonor())
+            return this.honorType.compareTo(t.getHonorType());
+        
+        if (this.isHonor() && !t.isHonor())
+            return 1;
+        
+        if (!this.isHonor() && t.isHonor())
+            return -1;
+        
+        if (this.type == t.getType())
+            return this.digit - t.getDigit();
+        
+        return this.type.compareTo(t.getType());
+    } 
+    
     
     public enum TileType {
-        BAMBOO,
+        // ORDER IS IMPORTANT
         CHARACTER,
         CIRCLE,
+        BAMBOO,
         DRAGON,
         WIND
     }
     
     public enum HonorType {
+        // ORDER IS IMPORTANT
         NONE,
         EAST,
-        SOUTH,
-        WEST,
         NORTH,
+        WEST,
+        SOUTH,
         RED_DRAGON,
         GREEN_DRAGON,
         WHITE_DRAGON

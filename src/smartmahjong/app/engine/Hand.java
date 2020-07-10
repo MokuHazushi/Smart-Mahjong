@@ -6,6 +6,7 @@
 package smartmahjong.app.engine;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -44,6 +45,18 @@ public class Hand {
 
     public List<Tile> getOpenedTiles() {
         return openedTiles;
+    }
+    
+    // Engine functions
+    public void sort() {
+        /* Sorting rules:
+        - Type: Characters -> Circles -> Bamboos -> Honors
+        - For non-honor type, increasing order
+        - For honors type East -> North -> West -> South -> Red dr. -> White dr. -> Green dr.
+        */
+        Arrays.sort(hand, (Tile t1, Tile t2) -> {
+            return t1.compareTo(t2);
+        });
     }
     
 }

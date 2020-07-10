@@ -6,6 +6,8 @@
 package smartmahjong.app.engine.utils;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 import smartmahjong.app.engine.Hand;
 import smartmahjong.app.engine.Tile;
 import smartmahjong.app.engine.Tile.HonorType;
@@ -36,6 +38,25 @@ public class DebugHelper {
                 }, 
                 new Tile(TileType.CIRCLE, 2, HonorType.NONE),
                 new ArrayList<>());
+    }
+    
+    public static Hand createRandomHand() {
+        Tile tiles[] = new Tile[13];
+        Tile drawnTile;
+        List<Tile> mahjongSet = EngineTools.createMahjongTileSet();
+        Random ranGen = new Random(System.currentTimeMillis());
+        
+        for (int i=0; i<13; i++) {
+            int nextTileIndex = ranGen.nextInt(mahjongSet.size());
+            tiles[i] = mahjongSet.get(nextTileIndex);
+            mahjongSet.remove(nextTileIndex);
+        }
+        
+        int drawnTileIndex = ranGen.nextInt(mahjongSet.size());
+        drawnTile = mahjongSet.get(drawnTileIndex);
+        mahjongSet.remove(drawnTileIndex);
+        
+        return new Hand(tiles, drawnTile, new ArrayList<>());
     }
     
 }

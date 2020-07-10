@@ -19,15 +19,18 @@ import smartmahjong.app.gui.utils.GUIFactory;
  */
 public class GHand extends JPanel {
     
-    private final GTile hand[];
+    private final GTile[] gHand;
     private final GTile drawnTile;
+    
+    // Data
+    private Hand hand;
     
     public GHand() {
         super();
         
         // Data initialization
-        hand = new GTile[13];
-        Arrays.setAll(hand, i -> new GTile(null));
+        gHand = new GTile[13];
+        Arrays.setAll(gHand, i -> new GTile(null));
         drawnTile = new GTile(null);
         
         // Graphic initialization
@@ -38,19 +41,34 @@ public class GHand extends JPanel {
         // Layout
         setLayout(new GridLayout(1, 15));
         for (int i=0; i<13; i++)
-            add(hand[i]);
+            add(gHand[i]);
         add(new GTile(null));
         add(drawnTile);
     }
     
-    public void drawHand(Hand hand) {
+    public void setAndDrawHand(Hand hand) {
+        this.hand = hand;
+        drawHand();
+    }
+    
+    public void redrawHand() {
+        if (hand == null)
+            return;
+        drawHand();
+    }
+    
+    private void drawHand() {
+        if (this.hand == null)
+            return;
         for (int i=0; i<13; i++) {
-            this.hand[i].setTileImage(
+            this.gHand[i].setTileImage(
                     GUIFactory.getTileGraphic(hand.getHand()[i]));
         }
         drawnTile.setTileImage(GUIFactory.getTileGraphic(hand.getDrawnTile()));
     }
-    
-    
+
+    public Hand getHand() {
+        return hand;
+    }
     
 }
