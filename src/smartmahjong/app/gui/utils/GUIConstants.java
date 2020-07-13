@@ -5,6 +5,7 @@
  */
 package smartmahjong.app.gui.utils;
 
+import java.awt.Color;
 import java.awt.Dimension;
 
 /**
@@ -15,4 +16,6 @@ public class GUIConstants {
     
     public static Dimension TILE_DIMENSION = new Dimension(90, 150);
     
+    public static Color BROWN_CHOCO_COLOR = new Color(18, 14, 10);
+    public static Color GREEN_MINT_COLOR = new Color(69, 86, 68);
 }

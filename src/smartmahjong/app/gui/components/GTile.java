@@ -11,13 +11,12 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import javax.swing.JPanel;
 
 /**
  *
  * @author moku
  */
-public class GTile extends JPanel {
+public class GTile extends BackgroundFilledPan {
     
     private Image tileImage;
     private boolean hovered;

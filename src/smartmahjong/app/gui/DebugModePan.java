@@ -12,6 +12,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import smartmahjong.app.engine.Hand;
 import smartmahjong.app.engine.utils.DebugHelper;
+import smartmahjong.app.gui.components.BackgroundFilledPan;
 import smartmahjong.app.gui.components.GHand;
 import smartmahjong.app.gui.listeners.ResizeWhenVisibleListener;
 
@@ -19,7 +20,7 @@ import smartmahjong.app.gui.listeners.ResizeWhenVisibleListener;
  *
  * @author moku
  */
-public class DebugModePan extends JPanel {
+public class DebugModePan extends BackgroundFilledPan {
     private static final Dimension PANEL_DIMENSION = new Dimension(1400, 300);
     
     private final GHand ghand;
@@ -42,7 +43,7 @@ public class DebugModePan extends JPanel {
         
         // Layout
         setLayout(new BorderLayout());
-        JPanel topPan = new JPanel();
+        JPanel topPan = new BackgroundFilledPan();
         
         topPan.add(generateHandBt);
         topPan.add(sortHandBt);

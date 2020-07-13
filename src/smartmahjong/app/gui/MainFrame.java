@@ -15,6 +15,7 @@ import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import smartmahjong.app.gui.components.BackgroundFilledPan;
 import smartmahjong.app.gui.listeners.ResizeWhenVisibleListener;
 
 /**
@@ -45,8 +46,8 @@ public class MainFrame extends JFrame {
         
         // Layout
         JPanel contentPane = new JPanel();
-        JPanel centerPan = new JPanel();
-        JPanel bottomPan = new JPanel();
+        JPanel centerPan = new BackgroundFilledPan();
+        JPanel bottomPan = new BackgroundFilledPan();
         contentPane.setLayout(new BorderLayout());
         bottomPan.setLayout(new BorderLayout());
         
