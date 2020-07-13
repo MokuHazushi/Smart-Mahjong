@@ -10,6 +10,7 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import smartmahjong.app.engine.Hand;
 import smartmahjong.app.engine.utils.DebugHelper;
 import smartmahjong.app.gui.components.GHand;
 import smartmahjong.app.gui.listeners.ResizeWhenVisibleListener;
@@ -24,12 +25,16 @@ public class DebugModePan extends JPanel {
     private final GHand ghand;
     private final JButton generateHandBt, sortHandBt;
     
+    // Data
+    private Hand hand;
+    
     public DebugModePan() {
         super();
         
         // Data initialization 
         ghand = new GHand();
-        ghand.setAndDrawHand(DebugHelper.createPinfuHand());
+        hand = DebugHelper.createPinfuHand();
+        ghand.drawHand(hand);
         
         // Buttons
         generateHandBt = new JButton("Generate random hand");
@@ -47,11 +52,12 @@ public class DebugModePan extends JPanel {
         // Listeners
         addComponentListener(new ResizeWhenVisibleListener(PANEL_DIMENSION, this));
         generateHandBt.addActionListener((ActionEvent ae) -> {
-            ghand.setAndDrawHand(DebugHelper.createRandomHand());
+            hand = DebugHelper.createRandomHand();
+            ghand.drawHand(hand);
         });
         sortHandBt.addActionListener((ActionEvent ae) -> {
-            ghand.getHand().sort();
-            ghand.redrawHand();
+            hand.sort();
+            ghand.drawHand(hand);
         });
     }
     

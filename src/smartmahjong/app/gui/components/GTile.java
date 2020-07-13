@@ -7,6 +7,7 @@ package smartmahjong.app.gui.components;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -20,13 +21,19 @@ public class GTile extends JPanel {
     
     private Image tileImage;
     private boolean hovered;
+    private boolean called;
 
     public GTile(Image tileImage) {
         this.tileImage = tileImage;
         this.hovered = false;
+        this.called = false;
         
         // Listeners
         addMouseListener(new GTileHoverListener(this));
+    }
+
+    public void setCalled(boolean called) {
+        this.called = called;
     }
 
     @Override
@@ -36,6 +43,11 @@ public class GTile extends JPanel {
         if (tileImage == null)
             return;
         
+        if (called) {
+            Graphics2D imGraphics = (Graphics2D)tileImage.getGraphics();
+            imGraphics.rotate(Math.toRadians(90), getWidth()/2, getHeight()/2);
+            imGraphics.dispose();
+        }
         g.drawImage(tileImage, 0, 0, getWidth(), getHeight(), null);
         
         if (hovered) {

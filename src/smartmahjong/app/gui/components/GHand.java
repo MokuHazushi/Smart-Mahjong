@@ -7,9 +7,12 @@ package smartmahjong.app.gui.components;
 
 import java.awt.Dimension;
 import java.awt.GridLayout;
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JPanel;
 import smartmahjong.app.engine.Hand;
+import smartmahjong.app.engine.Meld;
+import smartmahjong.app.engine.Tile;
 import smartmahjong.app.gui.utils.GUIConstants;
 import smartmahjong.app.gui.utils.GUIFactory;
 
@@ -19,56 +22,49 @@ import smartmahjong.app.gui.utils.GUIFactory;
  */
 public class GHand extends JPanel {
     
-    private final GTile[] gHand;
-    private final GTile drawnTile;
-    
-    // Data
-    private Hand hand;
+    private final JPanel closedHandPan; // Include last drawn tile
+    private final JPanel openedMeldsPan;
     
     public GHand() {
         super();
         
-        // Data initialization
-        gHand = new GTile[13];
-        Arrays.setAll(gHand, i -> new GTile(null));
-        drawnTile = new GTile(null);
-        
         // Graphic initialization
-        setPreferredSize(new Dimension(
-                15*GUIConstants.TILE_DIMENSION.width, 
+        JPanel mainPan = new JPanel();
+        closedHandPan = new JPanel();
+        openedMeldsPan = new JPanel();
+        
+        mainPan.setPreferredSize(new Dimension(
+                20*GUIConstants.TILE_DIMENSION.width, 
                 GUIConstants.TILE_DIMENSION.height));
         
         // Layout
-        setLayout(new GridLayout(1, 15));
-        for (int i=0; i<13; i++)
-            add(gHand[i]);
-        add(new GTile(null));
-        add(drawnTile);
+        mainPan.setLayout(new GridLayout(1, 2, 10, 10));
+        mainPan.add(closedHandPan);
+        mainPan.add(openedMeldsPan);
+        add(mainPan);
     }
     
-    public void setAndDrawHand(Hand hand) {
-        this.hand = hand;
-        drawHand();
-    }
-    
-    public void redrawHand() {
-        if (hand == null)
-            return;
-        drawHand();
-    }
-    
-    private void drawHand() {
-        if (this.hand == null)
-            return;
-        for (int i=0; i<13; i++) {
-            this.gHand[i].setTileImage(
-                    GUIFactory.getTileGraphic(hand.getHand()[i]));
-        }
-        drawnTile.setTileImage(GUIFactory.getTileGraphic(hand.getDrawnTile()));
-    }
-
-    public Hand getHand() {
-        return hand;
+    public void drawHand(Hand hand) {
+        
+        closedHandPan.removeAll();
+        openedMeldsPan.removeAll();
+        
+        List<Tile> closedTiles = hand.getClosedTiles();
+        List<Meld> openedMelds = hand.getOpenedMelds();
+        
+        // Layout
+        closedHandPan.setLayout(new GridLayout(1, closedTiles.size()+2));
+        openedMeldsPan.setLayout(new GridLayout(1, openedMelds.size()));
+        
+        // Drawing
+        closedTiles.forEach((tile) -> {
+            closedHandPan.add(new GTile(GUIFactory.getTileGraphic(tile)));
+        });
+        openedMelds.forEach((meld) -> {
+            openedMeldsPan.add(new GMeld(meld));
+        });
+        
+        validate();
     }
     
 }

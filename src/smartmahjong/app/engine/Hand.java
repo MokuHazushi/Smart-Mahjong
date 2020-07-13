@@ -17,18 +17,18 @@ public class Hand {
     
     private final Tile hand[];
     private Tile drawnTile;
-    private final List<Tile> openedTiles;
+    private final List<Meld> openedMelds;
     
     public Hand() {
         this.hand = new Tile[13];
-        this.openedTiles = new ArrayList<>();
+        this.openedMelds = new ArrayList<>();
         this.drawnTile = null;
     }
 
-    public Hand(Tile[] hand, Tile drawnTile, List<Tile> openedTiles) {
+    public Hand(Tile[] hand, Tile drawnTile, List<Meld> openedMelds) {
         this.hand = hand;
         this.drawnTile = drawnTile;
-        this.openedTiles = openedTiles;
+        this.openedMelds = openedMelds;
     }
 
     public Tile getDrawnTile() {
@@ -43,8 +43,34 @@ public class Hand {
         return hand;
     }
 
-    public List<Tile> getOpenedTiles() {
-        return openedTiles;
+    public List<Meld> getOpenedMelds() {
+        return openedMelds;
+    }
+    
+    public int numberOfClosedTile() {
+        int res = hand.length;
+        for (Meld m : openedMelds)
+            res -= m.getMeld().size();
+        
+        return res;
+    }
+    
+    public List<Tile> getClosedTiles() {
+        List<Tile> res = List.copyOf(Arrays.asList(hand));
+        
+        openedMelds.forEach(meld -> {
+           for (Tile tile : meld.getMeld()) {
+               int toRemoveIndex = -1;
+               for (int i=0; i<res.size(); i++) {
+                   if (res.get(i).compareTo(tile) == 0) {
+                       toRemoveIndex = i;
+                       break;
+                   }
+               }
+               res.remove(toRemoveIndex);
+           }
+        });
+        return res;
     }
     
     // Engine functions
