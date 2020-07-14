@@ -6,11 +6,12 @@
 package smartmahjong.app.gui.components;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Image;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
+import smartmahjong.app.gui.utils.GUITools;
 
 /**
  *
@@ -18,11 +19,13 @@ import java.awt.event.MouseListener;
  */
 public class GTile extends BackgroundFilledPan {
     
-    private Image tileImage;
+    private BufferedImage tileImage;
     private boolean hovered;
     private boolean called;
+    
+    private Dimension prefDim;
 
-    public GTile(Image tileImage) {
+    private GTile(BufferedImage tileImage) {
         this.tileImage = tileImage;
         this.hovered = false;
         this.called = false;
@@ -30,34 +33,49 @@ public class GTile extends BackgroundFilledPan {
         // Listeners
         addMouseListener(new GTileHoverListener(this));
     }
-
-    public void setCalled(boolean called) {
-        this.called = called;
+    
+    public GTile(BufferedImage tileImage, Dimension prefDim) {
+        this(tileImage);
+        
+        this.prefDim = prefDim;
+        setPreferredSize(prefDim);
     }
 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        
+              
         if (tileImage == null)
             return;
         
-        if (called) {
-            Graphics2D imGraphics = (Graphics2D)tileImage.getGraphics();
-            imGraphics.rotate(Math.toRadians(90), getWidth()/2, getHeight()/2);
-            imGraphics.dispose();
-        }
-        g.drawImage(tileImage, 0, 0, getWidth(), getHeight(), null);
+        int width = called ? prefDim.height : prefDim.width;
+        int height = called ? prefDim.width : prefDim.height;
+        int originX = 0;
+        int originY = called ? prefDim.height - prefDim.width : 0;
+        
+
+        g.drawImage(tileImage, originX, originY, width, height, null);
         
         if (hovered) {
             g.setColor(new Color(50, 50, 50, 50));
-            g.fillRect(0, 0, getWidth(), getHeight());
+            g.fillRect(originX, originY, width, height);
         }
     }
 
-    public void setTileImage(Image tileImage) {
+    public void setTileImage(BufferedImage tileImage) {
         this.tileImage = tileImage;
         repaint();
+    }
+    
+    public void setCalled() {
+        if (this.tileImage == null)
+            return;
+        
+        this.called = true;
+        setPreferredSize(new Dimension(
+                prefDim.height, 
+                prefDim.height));
+        setTileImage(GUITools.rotateImage(tileImage, -90));
     }
     
     private class GTileHoverListener implements MouseListener {

@@ -5,10 +5,11 @@
  */
 package smartmahjong.app.gui.components;
 
-import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.GridLayout;
+import java.awt.FlowLayout;
 import java.util.List;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 import smartmahjong.app.engine.Hand;
 import smartmahjong.app.engine.Meld;
@@ -21,6 +22,8 @@ import smartmahjong.app.gui.utils.GUIFactory;
  * @author moku
  */
 public class GHand extends BorderedPan {
+    
+    private final Dimension TILE_DIMENSION = GUIConstants.TILE_DIMENSION;
     
     private final JPanel mainPan;
     private final JPanel closedHandPan; // Include last drawn tile
@@ -36,12 +39,11 @@ public class GHand extends BorderedPan {
         openedMeldsPan = new BackgroundFilledPan();
         
         setPreferredSize(new Dimension(
-                (int)(0.75*15*GUIConstants.TILE_DIMENSION.width), 
-                (int)(0.75*GUIConstants.TILE_DIMENSION.height)));
+                17*TILE_DIMENSION.width+4*TILE_DIMENSION.width,
+                (int)(1.25*TILE_DIMENSION.height)));
+        mainPan.setPreferredSize(getPreferredSize());
         
         // Layout
-        setLayout(new GridLayout(1, 1, 5, 5));
-        
         add(mainPan);
     }
     
@@ -53,29 +55,38 @@ public class GHand extends BorderedPan {
         List<Tile> closedTiles = hand.getClosedTiles();
         List<Meld> openedMelds = hand.getOpenedMelds();
         
+        // Sizing
+        /*
+        closedHandPan.setPreferredSize(new Dimension(
+                closedTiles.size()*TILE_DIMENSION.width,
+                TILE_DIMENSION.height
+        ));
+        openedMeldsPan.setPreferredSize(new Dimension(
+                getPreferredSize().width-closedHandPan.getPreferredSize().width,
+                TILE_DIMENSION.height
+        ));
+*/
+        
         // Layout
-        closedHandPan.setLayout(new GridLayout(1, closedTiles.size()+2, 2, 1));
-        openedMeldsPan.setLayout(new GridLayout(1, openedMelds.size()));
+        closedHandPan.setLayout(new FlowLayout());
+        openedMeldsPan.setLayout(new FlowLayout());
         
         // Drawing
         closedTiles.forEach((tile) -> {
-            closedHandPan.add(new GTile(GUIFactory.getTileGraphic(tile)));
+            closedHandPan.add(GUIFactory.createGTile(tile, TILE_DIMENSION));
         });
-        closedHandPan.add(new GTile(null));
-        closedHandPan.add(new GTile(GUIFactory.getTileGraphic(hand.getDrawnTile())));
+        closedHandPan.add(Box.createRigidArea(new Dimension(
+                (int)(TILE_DIMENSION.width*0.5), 
+                TILE_DIMENSION.height)));
+        closedHandPan.add(GUIFactory.createGTile(hand.getDrawnTile(), TILE_DIMENSION));
+        
         openedMelds.forEach((meld) -> {
-            openedMeldsPan.add(new GMeld(meld));
+            openedMeldsPan.add(new GMeld(meld, TILE_DIMENSION));
         });
         
-        if (openedMelds.isEmpty()) {
-            mainPan.setLayout(new GridLayout(1, 1, 10, 10));
-            mainPan.add(closedHandPan);
-        }
-        else {
-            mainPan.setLayout(new GridLayout(1, 2, 10, 10));
-            mainPan.add(closedHandPan);
-            mainPan.add(openedMeldsPan);
-        }
+        mainPan.setLayout(new FlowLayout(FlowLayout.CENTER, TILE_DIMENSION.width, 0));
+        mainPan.add(closedHandPan);
+        mainPan.add(openedMeldsPan);
         
         validate();
     }

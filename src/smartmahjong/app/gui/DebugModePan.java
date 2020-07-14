@@ -21,7 +21,7 @@ import smartmahjong.app.gui.listeners.ResizeWhenVisibleListener;
  * @author moku
  */
 public class DebugModePan extends BackgroundFilledPan {
-    private static final Dimension PANEL_DIMENSION = new Dimension(1400, 300);
+    private static final Dimension PANEL_DIMENSION = new Dimension(1800, 350);
     
     private final GHand ghand;
     private final JButton generateHandBt, sortHandBt;
@@ -34,7 +34,7 @@ public class DebugModePan extends BackgroundFilledPan {
         
         // Data initialization 
         ghand = new GHand();
-        hand = DebugHelper.createPinfuHand();
+        hand = DebugHelper.createOpenedHand();
         ghand.drawHand(hand);
         
         // Buttons

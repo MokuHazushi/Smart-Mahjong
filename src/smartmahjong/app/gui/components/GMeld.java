@@ -5,26 +5,45 @@
  */
 package smartmahjong.app.gui.components;
 
-import javax.swing.JPanel;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import smartmahjong.app.engine.Meld;
+import smartmahjong.app.gui.utils.GUIFactory;
 
 /**
  *
  * @author moku
  */
-public class GMeld extends JPanel {
+public class GMeld extends BackgroundFilledPan {
     
     // Data
     private final Meld meld;
     
-    public GMeld(Meld meld) {
+    public GMeld(Meld meld, Dimension tileDim) {
         super();
         
         // Data initialization
         this.meld = meld;
         
-        // Layout
+        // Graphic initialization
+        int prefWidth = meld.getMeld().size()*tileDim.width; 
+        int prefHeight = tileDim.height;
         
+        if (meld.isOpened())
+            prefWidth += tileDim.height;
+        
+        setPreferredSize(new Dimension(prefWidth, prefHeight));
+        
+        
+        // Layout
+        setLayout(new FlowLayout());
+        for (int i=0; i<meld.getMeld().size(); i++) {
+            GTile gtile = GUIFactory.createGTile(meld.getMeld().get(i), tileDim);
+            if (i == meld.getCalledTileIndex())
+                gtile.setCalled();
+            
+            add(gtile);
+        }
     }
     
 }

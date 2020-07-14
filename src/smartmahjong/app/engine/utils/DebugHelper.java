@@ -6,9 +6,11 @@
 package smartmahjong.app.engine.utils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import smartmahjong.app.engine.Hand;
+import smartmahjong.app.engine.Meld;
 import smartmahjong.app.engine.Tile;
 import smartmahjong.app.engine.Tile.HonorType;
 import smartmahjong.app.engine.Tile.TileType;
@@ -38,6 +40,34 @@ public class DebugHelper {
                 }, 
                 new Tile(TileType.CIRCLE, 2, HonorType.NONE),
                 new ArrayList<>());
+    }
+    
+    public static Hand createOpenedHand() {
+        Tile tiles[] = new Tile[] {
+                    new Tile(TileType.CHARACTER, 1, HonorType.NONE),
+                    new Tile(TileType.CHARACTER, 2, HonorType.NONE),
+                    new Tile(TileType.CHARACTER, 3, HonorType.NONE),
+                    new Tile(TileType.CHARACTER, 5, HonorType.NONE),
+                    new Tile(TileType.CHARACTER, 5, HonorType.NONE),
+                    new Tile(TileType.CIRCLE, 3, HonorType.NONE),
+                    new Tile(TileType.CIRCLE, 4, HonorType.NONE),
+                    new Tile(TileType.CIRCLE, 7, HonorType.NONE),
+                    new Tile(TileType.CIRCLE, 8, HonorType.NONE),
+                    new Tile(TileType.CIRCLE, 9, HonorType.NONE),
+                    new Tile(TileType.BAMBOO, 4, HonorType.NONE),
+                    new Tile(TileType.BAMBOO, 5, HonorType.NONE),
+                    new Tile(TileType.BAMBOO, 6, HonorType.NONE)
+                };
+        Tile drawnTile = new Tile(TileType.CIRCLE, 2, HonorType.NONE);
+        List<Meld> melds = new ArrayList<>();
+        
+        melds.add(new Meld(
+                Arrays.asList(Arrays.copyOfRange(tiles, 0, 3)),
+                true,
+                1
+        ));
+        
+        return new Hand(tiles, drawnTile, melds);
     }
     
     public static Hand createRandomHand() {

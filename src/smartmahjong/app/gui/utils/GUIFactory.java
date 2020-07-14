@@ -6,7 +6,6 @@
 package smartmahjong.app.gui.utils;
 
 import java.awt.Dimension;
-import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -23,7 +22,7 @@ public class GUIFactory {
     
     private static BufferedImage tilesGraphics = null;
     
-    public static Image getTileGraphic(Tile tile) {
+    private static BufferedImage getTileGraphic(Tile tile) {
         
         final Dimension TILE_DIMENSION = GUIConstants.TILE_DIMENSION;
         int topX = 0, topY = 0;
@@ -117,8 +116,8 @@ public class GUIFactory {
         return tileImage;
     }
     
-    public static GTile createGTile(Tile tile) {
-        return new GTile(getTileGraphic(tile));
+    public static GTile createGTile(Tile tile, Dimension prefDim) {
+        return new GTile(getTileGraphic(tile), prefDim);
     }
     
     private static void loadTilesGraphics() {

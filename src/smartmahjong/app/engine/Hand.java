@@ -56,7 +56,7 @@ public class Hand {
     }
     
     public List<Tile> getClosedTiles() {
-        List<Tile> res = List.copyOf(Arrays.asList(hand));
+        List<Tile> res = new ArrayList(Arrays.asList(hand));
         
         openedMelds.forEach(meld -> {
            for (Tile tile : meld.getMeld()) {
