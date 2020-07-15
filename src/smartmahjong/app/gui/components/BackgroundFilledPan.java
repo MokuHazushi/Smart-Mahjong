@@ -16,7 +16,7 @@ public class BackgroundFilledPan extends JPanel {
     
     public BackgroundFilledPan() {
         super();
-        setBackground(GUIConstants.BROWN_CHOCO_COLOR);
+        //setBackground(GUIConstants.LIGHT_PURPLE_COLOR);
     }
     
 }

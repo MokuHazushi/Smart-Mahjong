@@ -9,7 +9,6 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.util.List;
 import javax.swing.Box;
-import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 import smartmahjong.app.engine.Hand;
 import smartmahjong.app.engine.Meld;
@@ -21,9 +20,11 @@ import smartmahjong.app.gui.utils.GUIFactory;
  *
  * @author moku
  */
-public class GHand extends BorderedPan {
+public class GHand extends BackgroundFilledPan {
     
-    private final Dimension TILE_DIMENSION = GUIConstants.TILE_DIMENSION;
+    private final Dimension TILE_DIMENSION = new Dimension(
+            (int)(0.5*GUIConstants.TILE_DIMENSION.width),
+            (int)(0.5*GUIConstants.TILE_DIMENSION.height));
     
     private final JPanel mainPan;
     private final JPanel closedHandPan; // Include last drawn tile

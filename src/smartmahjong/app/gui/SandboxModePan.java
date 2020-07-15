@@ -6,7 +6,6 @@
 package smartmahjong.app.gui;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -14,14 +13,12 @@ import smartmahjong.app.engine.Hand;
 import smartmahjong.app.engine.utils.DebugHelper;
 import smartmahjong.app.gui.components.BackgroundFilledPan;
 import smartmahjong.app.gui.components.GHand;
-import smartmahjong.app.gui.listeners.ResizeWhenVisibleListener;
 
 /**
  *
  * @author moku
  */
-public class DebugModePan extends BackgroundFilledPan {
-    private static final Dimension PANEL_DIMENSION = new Dimension(1800, 350);
+public class SandboxModePan extends JPanel {
     
     private final GHand ghand;
     private final JButton generateHandBt, sortHandBt;
@@ -29,7 +26,7 @@ public class DebugModePan extends BackgroundFilledPan {
     // Data
     private Hand hand;
     
-    public DebugModePan() {
+    public SandboxModePan() {
         super();
         
         // Data initialization 
@@ -51,7 +48,6 @@ public class DebugModePan extends BackgroundFilledPan {
         add(ghand, BorderLayout.CENTER);
         
         // Listeners
-        addComponentListener(new ResizeWhenVisibleListener(PANEL_DIMENSION, this));
         generateHandBt.addActionListener((ActionEvent ae) -> {
             hand = DebugHelper.createRandomHand();
             ghand.drawHand(hand);

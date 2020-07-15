@@ -122,15 +122,20 @@ public class GUIFactory {
     
     private static void loadTilesGraphics() {
         final String TILES_IMAGE_FILE = "tiles.png";
+        tilesGraphics = loadImage(TILES_IMAGE_FILE);
+    }
+    
+    public static BufferedImage loadImage(String fileName) {
+        BufferedImage img = null;
         
         try {
-            tilesGraphics = ImageIO.read(
-                    new File(IMAGE_FOLDER+"/"+TILES_IMAGE_FILE));
+            img = ImageIO.read(new File(IMAGE_FOLDER+"/"+fileName));
         }
         catch (IOException ioe) {
             ioe.printStackTrace();
         }
         
+        return img;
     }
     
 }

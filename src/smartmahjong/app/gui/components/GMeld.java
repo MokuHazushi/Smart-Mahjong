@@ -24,17 +24,7 @@ public class GMeld extends BackgroundFilledPan {
         
         // Data initialization
         this.meld = meld;
-        
-        // Graphic initialization
-        int prefWidth = meld.getMeld().size()*tileDim.width; 
-        int prefHeight = tileDim.height;
-        
-        if (meld.isOpened())
-            prefWidth += tileDim.height;
-        
-        setPreferredSize(new Dimension(prefWidth, prefHeight));
-        
-        
+           
         // Layout
         setLayout(new FlowLayout());
         for (int i=0; i<meld.getMeld().size(); i++) {

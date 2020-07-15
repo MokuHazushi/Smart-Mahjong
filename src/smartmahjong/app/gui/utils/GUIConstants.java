@@ -14,8 +14,12 @@ import java.awt.Dimension;
  */
 public class GUIConstants {
     
+    // DIMENSIONS
+    public static Dimension APP_DIMENSION = new Dimension(1000, 500);
     public static Dimension TILE_DIMENSION = new Dimension(90, 150);
     
-    public static Color BROWN_CHOCO_COLOR = new Color(18, 14, 10);
-    public static Color GREEN_MINT_COLOR = new Color(69, 86, 68);
+    
+    // COLORS
+    public static Color BRIGHT_YELLOW_COLOR = new Color(255, 255, 175);
+    public static Color LIGHT_PURPLE_COLOR = new Color(143, 120, 173);
 }
